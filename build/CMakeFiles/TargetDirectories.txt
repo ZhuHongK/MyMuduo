@@ -1,0 +1,3 @@
+/home/zhuhk/mySpace/MyMuduo/build/CMakeFiles/rebuild_cache.dir
+/home/zhuhk/mySpace/MyMuduo/build/CMakeFiles/edit_cache.dir
+/home/zhuhk/mySpace/MyMuduo/build/CMakeFiles/mymuduo.dir

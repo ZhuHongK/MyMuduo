@@ -32,7 +32,7 @@ void Channel::update()
 {
     // 通过channel所属的EventLoop, 调用poller的相应方法，注册fd的events事件
     // add code...
-    // loop_->updaetChannel(this);
+    // loop_->updateChannel(this);
 }
 
 // 在channel所属的EventLoop中，把当前的channel删除掉

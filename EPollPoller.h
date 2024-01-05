@@ -31,7 +31,7 @@ private:
     void fillActiveCahnnels(int numEvents, ChannelList *activeChnnels) const;
 
     // 更新channel通道
-    void  update(int operation, Channel * channel);
+    void update(int operation, Channel * channel);
 
     using EventList = std::vector<epoll_event>;
 

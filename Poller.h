@@ -26,7 +26,7 @@ public:
     // 判断参数channel是否在当前Poller当中
     bool hasChannel(Channel *channel) const;
 
-    // EvenetLoop可以通过该接口获取默认的IO复用的具体实现
+    // EvenetLoop可以通过该接口获取默认的 IO复用的具体实现
     static Poller* newDefaultPoller(EventLoop *loop);
 protected:
     // map的key：sockfd  value: sockfd所属的channel通道类型

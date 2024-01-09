@@ -36,7 +36,7 @@ Timestamp EPollPoller::poll(int timeoutMs, ChannelList *activeChannels)
 /**
  *          EventLoop
  * channelList     Poller
- *                  ChannelMap <fd, channel*>
+ *                  ChannelMap <fd, channel*> epollfd
  */
 void EPollPoller::updateChannel(Channel *channel) 
 {
@@ -69,9 +69,17 @@ void EPollPoller::updateChannel(Channel *channel)
     }
 }
 
-void EPollPoller::removeChannel(Channel *channel) override
+void EPollPoller::removeChannel(Channel *channel) 
 {
+    int fd = channel->fd();
+    channels_.erase(fd);
 
+    int index = channel->index();
+    if (index == kAdded)
+    {
+        update(EPOLL_CTL_DEL, channel);
+    }
+    channel->set_index(kNew);
 }
 
 // 填写活跃的连接
@@ -80,8 +88,27 @@ void EPollPoller::fillActiveCahnnels(int numEvents, ChannelList *activeChnnels) 
 
 }
 
-// 更新channel通道
+// 更新channel通道 epoll_ctl add/mod/del
 void EPollPoller::update(int operation, Channel * channel)
-[
+{
+    epoll_event event;
+    memset(&event, 0, sizeof event); 
 
-]
+    int fd = channel->fd();
+
+    event.events = channel->events();
+    event.data.fd = fd;
+    event.data.ptr = channel;
+
+    if (::epoll_ctl(epollfd_, operation, fd, &event) < 0)
+    {
+        if (operation == EPOLL_CTL_DEL)
+        {
+            LOG_ERROR("epoll_ctl del error:%d\n", errno);
+        }
+        else
+        {
+            LOG_FATAL("epoll_ctl add/mod error:%d\n", errno);
+        }
+    }
+}

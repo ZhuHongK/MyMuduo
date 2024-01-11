@@ -23,7 +23,7 @@ public:
     bool listenning() const { return listenning_; }
     void listen();
 private:
-    void headleRead();
+    void handleRead();
 
     EventLoop *loop_; // Accepter用的就是用户定义的那个baseLoop, 也称做mainLoop
     Socket acceptSocket_;

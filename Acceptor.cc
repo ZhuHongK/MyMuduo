@@ -1,5 +1,6 @@
 #include "Acceptor.h"
 #include "Logger.h"
+#include "InetAddress.h"
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -14,6 +15,7 @@ static int createNonblocking()
     {
         LOG_FATAL("%s:%s:%d listen socket create err:%d \n", __FILE__, __FUNCTION__, __LINE__, errno);
     }
+    return sockfd;
 }
 
 Acceptor::Acceptor(EventLoop *loop, const InetAddress &listenAddr, bool reuseport)
@@ -45,7 +47,7 @@ void Acceptor::listen()
 }
 
 // listenfd有事件发生了，就是有新用户连接了
-void Acceptor::headleRead()
+void Acceptor::handleRead()
 {
     InetAddress peerAddr;
     int connfd = acceptSocket_.accept(&peerAddr);

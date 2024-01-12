@@ -3,7 +3,7 @@
 
 #include <functional>
 
-EventLoop* CheckLoopNotNull(EventLoop *loop)
+static EventLoop* CheckLoopNotNull(EventLoop *loop)
 {
     if (loop == nullptr)
     {
@@ -23,7 +23,7 @@ TcpServer::TcpServer(EventLoop *loop,
                 , threadPool_(new EventLoopThreadPool(loop, name_))
                 , connectionCallback_()
                 , messageCallback_()
-                , nextConnId_(1)
+                , nextConnId_(1) 
 {
     // 当有用户连接时，会执行TcpServer::newConnection回调
     acceptor_->setNewConnectionCallback(std::bind(&TcpServer::newConnection, this,

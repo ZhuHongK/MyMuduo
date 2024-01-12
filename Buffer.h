@@ -77,6 +77,27 @@ public:
             makeSpace(len); // 扩容函数
         }
     }
+    
+    // 把 [data, data + len] 内存上的数据，添加到writable缓冲区当中
+    void append(const char *data, size_t len)
+    {
+        ensureWriteableBytes(len);
+        std::copy(data, data + len, beginWrite());
+        writerIndex_ += len;
+    }
+
+    char* beginWrite()
+    {
+        return begin() + writerIndex_;
+    }
+
+    const char* beginWrite() const
+    {
+        return begin() + writerIndex_;
+    }
+
+    // 从fd上读取数据
+    ssize_t readFd(int fd, int *saveErrno);
 
 private:
     char* begin()

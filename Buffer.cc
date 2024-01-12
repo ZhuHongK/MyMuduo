@@ -2,6 +2,7 @@
 
 #include <errno.h>
 #include <sys/uio.h>
+#include <unistd.h>
 
 /**
  * 从fd上读取数据， Poller工作在LT模式
@@ -36,5 +37,15 @@ ssize_t Buffer::readFd(int fd, int *saveErrno)
         append(extrabuf, n - writable); //writerIndex_开始写  n - writable大小的数据
     }
 
+    return n;
+}
+
+ssize_t Buffer:: writeFd(int fd, int *saveErrno)
+{
+    ssize_t n = ::write(fd, peek(), readableBytes());
+    if (n < 0)
+    {
+        *saveErrno = errno;
+    }
     return n;
 }

@@ -20,7 +20,7 @@
     do \
     { \
         Logger &logger = Logger::instance(); \
-        logger.setLogLevel(INFO); \
+        logger.setLogLevel(ERROR); \
         char buf[1024] = {0}; \
         snprintf(buf, 1024, logmsgFormat, ##__VA_ARGS__); \
         logger.log(buf); \
@@ -30,19 +30,20 @@
     do \
     { \
         Logger &logger = Logger::instance(); \
-        logger.setLogLevel(INFO); \
+        logger.setLogLevel(FATAL); \
         char buf[1024] = {0}; \
         snprintf(buf, 1024, logmsgFormat, ##__VA_ARGS__); \
         logger.log(buf); \
         exit(-1); \
     } while(0)
 
+// DEBUG 输出的信息很多 会拉低性能 一般默认不打印  可以用宏打开
 #ifdef MUDEBUG
 #define LOG_DEBUG(logmsgFormat, ...) \
     do \
     { \
         Logger &logger = Logger::instance(); \
-        logger.setLogLevel(INFO); \
+        logger.setLogLevel(DEBUG); \
         char buf[1024] = {0}; \
         snprintf(buf, 1024, logmsgFormat, ##__VA_ARGS__); \
         logger.log(buf); \
